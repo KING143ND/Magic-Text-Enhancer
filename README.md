@@ -46,6 +46,8 @@ Magic Text Enhancer is a Django-based web application that allows users to perfo
 - Click the "Analyze Text" button to see the enhanced text.
 - Explore various features and have fun with text transformations!
 
+**Live Link:** [Magic Text Enhancer](https://magic-text-enhancer.vercel.app/)
+
 ## Contributing
 
 Contributions are welcome! Please fork the repository and create a pull request with your enhancements.
