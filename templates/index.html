@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="icon" type="image/png" href="{% static 'web.png' %}">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <title>Magic Text Enhancer</title>
+
+    <style>
+        .swal2-popup {
+            background-color: #2a2a2a;
+            color: #d4d4d4;
+        }
+        .swal2-title {
+            color: #ffffff;
+            text-transform: capitalize;
+        }
+        .swal2-confirm {
+            background-color: #0062ff !important; /* Bootstrap primary color */
+            color: #ffffff !important;
+            padding: 8px 32px;
+        }
+        .swal2-confirm:hover {
+            color: #000000 !important;
+        }
+        .btn-outline-pink {
+            --bs-btn-color: #e522ab;
+            --bs-btn-border-color: #e225b6;
+            --bs-btn-hover-color: #fff;
+            --bs-btn-hover-bg: #de24a0;
+            --bs-btn-hover-border-color: #dc39c0;
+            --bs-btn-focus-shadow-rgb: 25,135,84;
+            --bs-btn-active-color: #fff;
+            --bs-btn-active-bg: #f321de;
+            --bs-btn-active-border-color: #e72ea6;
+            --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+            --bs-btn-disabled-color: #c640c1;
+            --bs-btn-disabled-bg: transparent;
+            --bs-btn-disabled-border-color: #c440b7;
+            --bs-gradient: none;
+        }
+        .btn-outline-orange {
+            --bs-btn-color: #ff7118;
+            --bs-btn-border-color: #ff7f1c;
+            --bs-btn-hover-color: #fff;
+            --bs-btn-hover-bg: #ff8d1b;
+            --bs-btn-hover-border-color: #ff8e23;
+            --bs-btn-focus-shadow-rgb: 25,135,84;
+            --bs-btn-active-color: #000;
+            --bs-btn-active-bg: #ff961e;
+            --bs-btn-active-border-color: #ff9524;
+            --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+            --bs-btn-disabled-color: #ff891b;
+            --bs-btn-disabled-bg: transparent;
+            --bs-btn-disabled-border-color: #ff9021;
+            --bs-gradient: none;
+        }
+        .btn-outline-voilet {
+            --bs-btn-color: #a618ff;
+            --bs-btn-border-color: #a618ff;
+            --bs-btn-hover-color: #fff;
+            --bs-btn-hover-bg: #a618ff;
+            --bs-btn-hover-border-color: #a618ff;
+            --bs-btn-focus-shadow-rgb: 25,135,84;
+            --bs-btn-active-color: #fff;
+            --bs-btn-active-bg: #a618ff;
+            --bs-btn-active-border-color: #a618ff;
+            --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+            --bs-btn-disabled-color: #a618ff;
+            --bs-btn-disabled-bg: transparent;
+            --bs-btn-disabled-border-color: #a618ff;
+            --bs-gradient: none;
+        }
+        .btn-outline-green {
+            --bs-btn-color: #18da25;
+            --bs-btn-border-color: #18da25;
+            --bs-btn-hover-color: #fff;
+            --bs-btn-hover-bg: #18da25;
+            --bs-btn-hover-border-color: #18da25;
+            --bs-btn-focus-shadow-rgb: 25,135,84;
+            --bs-btn-active-color: #000;
+            --bs-btn-active-bg: #18da25;
+            --bs-btn-active-border-color: #18da25;
+            --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+            --bs-btn-disabled-color: #18da25;
+            --bs-btn-disabled-bg: transparent;
+            --bs-btn-disabled-border-color: #18da25;
+            --bs-gradient: none;
+        }
+        .btn-outline-dust {
+            --bs-btn-color: #fc4c8a;
+            --bs-btn-border-color: #fc4c8a;
+            --bs-btn-hover-color: #fff;
+            --bs-btn-hover-bg: #fc4c8a;
+            --bs-btn-hover-border-color: #fc4c8a;
+            --bs-btn-focus-shadow-rgb: 25,135,84;
+            --bs-btn-active-color: #000;
+            --bs-btn-active-bg: #fc4c8a;
+            --bs-btn-active-border-color: #fc4c8a;
+            --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+            --bs-btn-disabled-color: #fc4c8a;
+            --bs-btn-disabled-bg: transparent;
+            --bs-btn-disabled-border-color: #fc4c8a;
+            --bs-gradient: none;
+        }
+    </style>
+</head>
+
+<body class="bg-dark mx-1">
+    <div class="container">
+        {% for message in messages %}
+        <script>
+            Swal.fire({
+                title: '{{ message.tags }}',
+                text: '{{message}}',
+                icon: '{{ message.tags }}',
+                confirmButtonText: 'OK', 
+            });
+        </script>
+        {% endfor %}
+        <div class="col-12 d-flex justify-content-center fs-1 my-2 animate__animated animate__rotateIn text-info">Magic Text Enhancer</div>
+        <form id="magicForm" action="/analyze" method="post" class="animate__animated -2s">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1" class="text-white mb-1 text-capitalize animate__animated animate__slideInLeft -3s">Enter your text here and let Magic Text Enhancer do the magic</label>
+                <textarea class="form-control animate__animated animate__zoomIn -4s" name="text" value="{{text}}" id="exampleFormControlTextarea1" rows="6">{{text}}</textarea>
+                <p class="mt-2 text-danger fs-5 d-inline me-2" id="wordCount">Word Count: 0</p>
+                <p class="mt-2 text-success fs-5 d-inline" id="charCount">Character Count: 0</p>
+            </div>
+            <div class="col-12 d-flex">
+                <div class="btn-group-toggle d-flex flex-wrap animate__animated animate__fadeIn -5s" data-toggle="buttons">
+                    <input type="checkbox" class="btn-check animate__animated animate__fadeIn -6s" name="removepunc" id="btn-check-outlined6" autocomplete="off">
+                    <label class="mt-2 me-2 btn btn-outline-success animate__animated animate__bounceIn" for="btn-check-outlined6">Remove Punctuations</label>
+
+                    <input type="checkbox" class="btn-check animate__animated animate__fadeIn -8s" name="removenum" id="btn-check-outlined5" autocomplete="off">
+                    <label class="mt-2 me-2 btn btn-outline-danger animate__animated animate__bounceIn -9s" for="btn-check-outlined5">Remove Numbers</label>
+
+                    <input type="checkbox" class="btn-check animate__animated animate__fadeIn -10s" name="fullcaps" id="btn-check-outlined4" autocomplete="off">
+                    <label class="mt-2 me-2 btn btn-outline-info animate__animated animate__bounceIn -11s" for="btn-check-outlined4">Uppercase</label>
+
+                    <input type="checkbox" class="btn-check animate__animated animate__fadeIn -12s" name="lowercase" id="btn-check-outlined" autocomplete="off">
+                    <label class="mt-2 me-2 btn btn-outline-pink animate__animated animate__bounceIn -13s" for="btn-check-outlined">Lowercase</label>
+
+                    <input type="checkbox" class="btn-check animate__animated animate__fadeIn -14s" name="newlineremover" id="btn-check-outlined2" autocomplete="off">
+                    <label class="mt-2 me-2 btn btn-outline-warning animate__animated animate__bounceIn -15s" for="btn-check-outlined2">New Line Remover</label>
+
+                    <input type="checkbox" class="btn-check animate__animated animate__fadeIn -16s" name="extraspaceremover" id="btn-check-outlined3" autocomplete="off">
+                    <label class="mt-2 me-2 btn btn-outline-primary animate__animated animate__bounceIn -17s" for="btn-check-outlined3">Extra Spaces Remover</label>
+
+                    <input type="checkbox" class="btn-check animate__animated animate__fadeIn -16s" name="capitalize" id="btn-check-outlined7" autocomplete="off">
+                    <label class="mt-2 me-2 btn btn-outline-orange animate__animated animate__bounceIn -17s" for="btn-check-outlined7">Capitalize</label>
+
+                    <input type="checkbox" class="btn-check animate__animated animate__fadeIn -16s" name="remove_duplicates" id="btn-check-outlined8" autocomplete="off">
+                    <label class="mt-2 me-2 btn btn-outline-voilet animate__animated animate__bounceIn -17s" for="btn-check-outlined8">Remove Duplicate Words</label>
+
+                    <input type="checkbox" class="btn-check" name="sorttext" id="btn-check-outlined9" autocomplete="off">
+                    <label class="mt-2 me-2 btn btn-outline-green" for="btn-check-outlined9">Sort Text</label>
+
+                    <input type="checkbox" class="btn-check" name="reverse_text" id="btn-check-reverse" autocomplete="off">
+                    <label class="mt-2 me-2 btn btn-outline-dust" for="btn-check-reverse">Text Reverse</label>
+
+                </div>
+            </div>
+            <button type="submit" class="btn btn-lg btn-light mt-3 me-2 animate__animated animate__flash -18s">Analyze Text</button>
+            <a href="/about" class="btn btn-lg btn-secondary copy-button mt-3 animate__animated animate__flash">About</a>
+        </form>
+        <ul class="list-unstyled animate__animated animate__zoomIn"><hr class='text-light'>
+            <li class='text-primary fs-4' >Important Notes:
+              <ul class='text-light fs-6'>
+                <li>Last Operation will Preference first.</li>
+                <li>Always double-check your text before applying operations.</li>
+                <li>The tool is case-sensitive for certain operations.</li>
+                <li>You can combine multiple operations for customized text transformation.</li>
+                <li>Undo functionality is not available, so be careful with your choices.</li>
+            </ul>
+            </li>
+          </ul>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js" integrity="sha384-dpLnBDsVPSdWPq8xs6b0ciqFf+qJRZprKTXh5SQVpJMQFQtPvcf55AVbqgtR6joi" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('magicForm');
+            const inputText = document.getElementById('exampleFormControlTextarea1');
+            const wordCountSpan = document.getElementById('wordCount');
+            const charCountSpan = document.getElementById('charCount');
+            const checkboxes = document.querySelectorAll('.btn-check');
+            
+            form.addEventListener('submit', function (event) {
+                if (!Array.from(checkboxes).some(checkbox => checkbox.checked)) {
+                    event.preventDefault();
+                    Swal.fire({
+                        title: 'Select Operation!',
+                        text: 'Please select at least one operation.',
+                        icon: 'warning',
+                        confirmButtonText: 'OK',
+                    });
+                }
+            });
+    
+            inputText.addEventListener('input', function () {
+                const text = inputText.value;
+                const words = text.trim().split(/\s+/).filter(Boolean);
+                const wordCount = words.length;
+                const charCount = text.length;
+    
+                wordCountSpan.innerText = `Word Count: ${wordCount}`;
+                charCountSpan.innerText = `Character Count: ${charCount}`;
+    
+                wordCountSpan.classList.remove('text-danger', 'fs-5');
+                charCountSpan.classList.remove('text-success', 'fw-bold', 'fs-5');
+    
+                wordCountSpan.classList.add('text-danger', 'fw-normal', 'fs-5');
+                charCountSpan.classList.add('text-success', 'fw-normal', 'fs-5');
+            });
+        });
+    </script>
+   
+</body>
+
+</html>
